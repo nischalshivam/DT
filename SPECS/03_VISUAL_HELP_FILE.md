@@ -52,9 +52,9 @@ THE FLYER
 | `Script Cue (narration)` | yes | **DocuStudio** | the exact narration lines this visual belongs under — THE mapping key (see §2) |
 | `Visual / Exact Clip to Use` | yes | both | what the shot shows + source + year (drives era treatment: archival vs modern) |
 | `Spoken Line` | optional ⭐ | DocuStudio | dialogue heard inside the clip — tool transcribes the downloaded clip and cuts precisely around this line |
-| `Clip Links` | optional | both | `?t=<sec>` = start point. ⭐ add `(until mm:ss)` for an end point; without it the tool auto-picks a clean out-point |
-| `Image Links` | optional | both | direct image URLs |
-| `Image Search` | recommended | collector | fallback queries, `\|`-separated, used when links fail or are missing |
+| `Clip Links` | optional | both | **raw URL only, no markdown wrapping.** `?t=<sec>` = start point. ⭐ add `(until mm:ss)` for an end point; without it the tool auto-picks a clean out-point |
+| `Image Links` | optional | both | direct image URLs (raw, unwrapped) |
+| `Image Search` | recommended | collector | fallback queries, `\|`-separated, **with corrected real-world spellings** (never the transcript's garbled names) |
 
 Multiple `Clip Links` / `Image Links` per block are fine (one per line
 or comma-separated). Field labels are case-insensitive and forgiving.
@@ -67,14 +67,32 @@ against the clean script (fuzzy match — quotes may be shortened with
 `…`). Since the clean script is whisper-aligned to the voiceover, every
 block automatically lands on its exact narration timestamps.
 
-- One block may cover one scene, part of a scene, or span two scenes —
-  all fine; the Script Cue decides.
+- One block may cover one scene, part of a scene, or span several
+  scenes — all fine; the Script Cue decides where it STARTS, and its
+  assets serve until the next block's cue.
 - A block whose Script Cue can't be matched → listed by name in a
   validation error BEFORE any downloading, so you fix the quote once.
 - Optional override: add a line `Scene: 12` inside a block to pin it
   manually.
 
-## 3. Accuracy boosters (the ⭐ upgrades, all optional)
+## 3. Coverage rules (learned from the Kinkel test files)
+
+1. **Heavy sections need MORE assets, not fewer.** Scenes marked
+   `PACING: hold` (journal readings, reveals, emotional peaks) run
+   long — one block with a single image search will loop/repeat right
+   where the video matters most. Give hold-stretches at least 2–3
+   distinct assets per scene-equivalent.
+2. **Reusing one source video for many blocks is GOOD** (e.g., one
+   documentary supplying 4 different time-ranges) — the tool downloads
+   it once and cuts each range.
+3. **Never give two blocks overlapping time-ranges** of the same video
+   (e.g., `0:00–1:00` and `0:00–1:20`) — that puts identical footage
+   in two scenes. QC dedupes overlaps and keeps the range only in the
+   first block; the second falls back to its Image Search.
+4. Rough sizing: `normal` scene ≈ 2–3 assets, `dense` ≈ 3–5, `hold` ≈
+   1 strong asset per ~10 seconds of the hold.
+
+## 4. Accuracy boosters (the ⭐ upgrades, all optional)
 
 1. **End point** — `Clip Links: https://youtu.be/XXX?t=45 (until 1:10)`
    → the tool cuts exactly 0:45–1:10 instead of guessing the out-point.
@@ -84,7 +102,7 @@ block automatically lands on its exact narration timestamps.
 3. **Year in "about … (year)"** — drives archival treatment (grain/B&W
    for old sources, clean for modern) per genre pack.
 
-## 4. Ready-made LLM prompt (copy-paste)
+## 5. Ready-made LLM prompt (copy-paste)
 
 Give this prompt + the **Editing Help Script** to the LLM/researcher:
 
@@ -94,42 +112,55 @@ below, produce a VISUAL HELP FILE for a footage-collection tool.
 Output plain text only, in exactly this block format:
 
 TOPIC / CONTEXT ANCHOR: <one line: the topic plus the specific
-episodes/events/works/people this video covers, with years>
+episodes/events/works/people this video covers, with years and
+CORRECT real-world spellings>
 
 <BLOCK TITLE IN CAPS — a short memorable name for this visual beat>
  Script Cue (narration): "<copy the exact narration lines this visual
- belongs to, word-for-word from the script; you may shorten the middle
- with … but never paraphrase>"
+ belongs to, word-for-word from the script — including any
+ transcription errors; you may shorten the middle with … but never
+ paraphrase>"
  Visual / Exact Clip to Use: <SHOT NAME IN CAPS> — <one or two lines
  describing exactly what should be on screen> — about <source work or
  person> (<year>).
  Spoken Line: <only if the clip contains a specific spoken/heard line;
  otherwise omit this field>
- Clip Links: <video url>?t=<start seconds> (until <mm:ss>)  ← include a
- real link with start time whenever you are confident; omit otherwise
- Image Links: <direct image urls, only if confident>
- Image Search: <3 alternative search queries separated by | >
+ Clip Links: <video url>?t=<start seconds> (until <mm:ss>)  ← raw URL,
+ never markdown-wrapped; include a real link with start time whenever
+ confident; omit otherwise
+ Image Links: <direct raw image urls, only if confident>
+ Image Search: <3 alternative search queries separated by | — always
+ with corrected real-world names, never the transcript's misspellings>
 
 RULES
 1. Create one block for roughly every scene of the Editing Help Script.
    Scenes marked PACING: dense may get 2 blocks; consecutive tiny
-   scenes with the same visual need may share 1 block.
+   scenes with the same visual need may share 1 block. Long emotional
+   stretches (PACING: hold — journal readings, reveals) need MORE
+   material: at least 2–3 distinct assets per hold scene, because those
+   moments run longest on screen.
 2. Script Cue quotes must be copied verbatim from the narration —
    the editing tool matches them by text. Never reword.
-3. Match era and place: archival visuals for historical narration; no
+3. Reusing one strong source video across multiple blocks with
+   DIFFERENT time-ranges is encouraged. Never give two blocks
+   overlapping time-ranges of the same video.
+4. Match era and place: archival visuals for historical narration; no
    modern stock under decades-old events. Name the source and year in
    every "about … (year)".
-4. For scenes tagged [CENSOR], describe non-graphic angles.
-5. Remember: [DATE]/[MAP]/[STAT]/[SOURCE] cards are auto-generated by
-   the editor — your visuals are the pictures BEHIND those cards.
-6. Every block must have Image Search queries even when links are
+5. For scenes tagged [CENSOR] or any sensitive/violent subject,
+   describe non-graphic angles (exteriors, memorials, documents) and
+   say what to avoid — no gore, no glamorizing shots.
+6. Remember: [DATE]/[MAP]/[STAT]/[SOURCE]/[ENTRY] cards are
+   auto-generated by the editor — your visuals are the pictures BEHIND
+   those cards.
+7. Every block must have Image Search queries even when links are
    given (they are the fallback if a link dies).
 
 Now here is the Editing Help Script:
 <PASTE EDITING HELP SCRIPT HERE>
 ```
 
-## 5. Flow with the Footage Collector
+## 6. Flow with the Footage Collector
 
 1. This file → **Footage Collector** downloads/cuts everything into
    `scene_001/, scene_002/ …` folders (its existing behavior).
