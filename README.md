@@ -11,7 +11,12 @@ per-scene re-render after.
 > DocuStudio reuses ProStudio's proven engine pieces (whisper
 > word-sync, Ken Burns + drift, planner, QC, renderer).
 >
-> STATUS: design/spec phase — `SPECS/` is the foundation. **No
+> STATUS: Stage 1 built — `docustudio/` package parses all three input
+> files, anchors every narration line in the clean script, maps every
+> visual block to its scenes, and prints a full validation report
+> (`python3 -m docustudio validate <clean> <help> <visual>`).
+> Regression-locked against `testdata/kinkel_iceberg` via
+> `tests/test_fixtures.py`. Specs live in `SPECS/`. **No
 > Filmora/.wfpbundle export** (that approach failed and is dropped);
 > output is a rendered MP4. The reviewable/editable artifact is our own
 > **storyboard**, not a third-party project file.
