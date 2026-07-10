@@ -79,3 +79,27 @@ video 1's board while video 2 is still downloading assets.
 - Every fix stays inside the tool, so re-render is scene-level and fast.
 - The storyboard doubles as the project archive: reopen any old video's
   board and re-render with changes anytime.
+
+## Checkpoints & resume (owner's overnight/office workflow)
+
+The tool runs fully on the user's PC and must survive sleep, shutdown,
+crashes, and missing internet:
+
+1. **Every stage checkpoints to disk** in the project folder:
+   downloaded assets, QC results, alignment, plan, storyboard, and
+   every rendered scene. On launch the tool scans projects and resumes
+   each one from its last completed checkpoint — nothing re-runs.
+2. **Internet is needed ONLY for the Acquire stage** (clip/image
+   downloads). Alignment, planning, graphics, sound and RENDER are
+   100% offline. Once a project's assets are on disk, no connection is
+   ever needed again for it.
+3. **Renders are scene-by-scene**: each finished scene is saved
+   immediately. Sleep/shutdown mid-render loses at most the one scene
+   in progress; on wake/relaunch the render continues from that scene.
+4. **Sleep mode**: the OS pauses the process; on wake it simply
+   continues. A download interrupted mid-flight retries and resumes.
+5. **Overnight queue**: each queued video runs to its pause point —
+   storyboard (review mode) or final MP4 (auto-approve) — then the
+   next video starts. Morning = a row of storyboards waiting for
+   approval; approving starts the render queue, which can run
+   unattended (PC on) or across sleep/wake cycles.
