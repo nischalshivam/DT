@@ -49,3 +49,31 @@ Handguns banned in UK = 1997 | Firearms (Amendment) Act
 
 If a `[STAT]` tag matches a label here, the card shows the exact value
 + a source footer; otherwise the tag's own text is used as-is.
+
+## How to generate the data file (LLM prompt)
+
+Give this prompt + your clean script to any LLM (same workflow as the
+other two files):
+
+```
+You are a documentary fact-checker. From the narration script below,
+extract every statistic, count, money amount, sentence length, or
+measurable claim that could appear on an on-screen stat card. Output
+one line per fact in exactly this format:
+
+<short label> = <exact value> | <most credible source name or type>
+
+RULES
+1. Labels under 8 words, corrected real-world spellings.
+2. Use the value the script states; if it looks factually wrong,
+   prefix the line with "CHECK:" so a human verifies it.
+3. Do not invent numbers the script never implies.
+4. Plain text only, no headers, no commentary.
+
+Now here is the clean script:
+<PASTE CLEAN SCRIPT HERE>
+```
+
+The editor matches `[STAT]` tags against these labels; matched cards
+show the exact value + a small source footer. Unmatched tags fall back
+to the tag's own text. The whole file is optional.
