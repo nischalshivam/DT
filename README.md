@@ -88,3 +88,4 @@ always-blur list is configurable in the UI.
 | `SPECS/05_STORYBOARD_WORKFLOW.md` | review-before-render flow, per-scene re-render |
 | `SPECS/06_GENRE_PACKS.md` | the 12 editing dimensions × 9 genres |
 | `SPECS/07_LANGUAGES.md` | multi-language behavior |
+| `SPECS/08_SHOT_PLANNER.md` | asset placement algorithm + copyright-safe clip rules (max 4–5 s per video shot) |
