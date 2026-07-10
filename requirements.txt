@@ -1,0 +1,6 @@
+pillow>=10.0
+imageio-ffmpeg>=0.6
+# recommended (voiceover word-sync — tool works without it, less precise):
+faster-whisper>=1.0
+# upcoming acquire stage (clip/image downloads):
+yt-dlp
