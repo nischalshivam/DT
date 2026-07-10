@@ -1,0 +1,154 @@
+{
+  "name": "war",
+  "substyle": "war_room_map",
+  "dwell": {
+    "hold": [
+      7.0,
+      13.0
+    ],
+    "normal": [
+      4.5,
+      8.0
+    ],
+    "dense": [
+      3.0,
+      5.5
+    ]
+  },
+  "slot_seconds": {
+    "hold": [
+      8.0,
+      12.0
+    ],
+    "normal": [
+      5.0,
+      8.0
+    ],
+    "dense": [
+      4.0,
+      5.5
+    ]
+  },
+  "clip_max_seconds": 4.5,
+  "static_hold_prob": 0.18,
+  "motions": [
+    "push_in_slow",
+    "push_in_med",
+    "pull_out",
+    "pan_left",
+    "pan_right",
+    "diag_drift",
+    "static",
+    "micro_drift",
+    "doc_scan",
+    "map_zoom",
+    "face_push",
+    "tilt"
+  ],
+  "canvas": "full_bleed_dark",
+  "grade": "war_heavy_v1",
+  "caption_style": "restrained_sans",
+  "transitions": {
+    "cut": 0.75,
+    "dissolve": 0.12,
+    "genre": 0.1,
+    "special": 0.03,
+    "genre_list": [
+      "archive_flicker",
+      "fade_black"
+    ],
+    "special_list": [
+      "smoke_fade",
+      "map_dissolve"
+    ]
+  },
+  "variants": {
+    "date": [
+      "stencil_card",
+      "corner_label",
+      "black_screen",
+      "timeline_dot",
+      "map_pin",
+      "newspaper"
+    ],
+    "entry": [
+      "stencil_band",
+      "black_screen_title",
+      "map_bg_title"
+    ],
+    "source": [
+      "military_stamp",
+      "corner_pill",
+      "footer_strip"
+    ],
+    "stat": [
+      "ops_panel",
+      "big_number_stencil",
+      "casualty_ledger"
+    ],
+    "chapter": [
+      "black_screen_title",
+      "map_bg",
+      "archive_photo_bg"
+    ],
+    "name": [
+      "rank_lower_third",
+      "dossier_card"
+    ],
+    "map": [
+      "ops_map_pin",
+      "arrow_advance",
+      "front_line"
+    ],
+    "text": [
+      "stencil_pop",
+      "radio_ticker"
+    ],
+    "quote": [
+      "dispatch_card",
+      "stencil_quote"
+    ],
+    "evidence": [
+      "dossier_pin",
+      "ops_tag"
+    ],
+    "timeline": [
+      "campaign_band",
+      "dot_advance"
+    ],
+    "compare": [
+      "split_screen",
+      "force_cards"
+    ]
+  },
+  "music_moods": {
+    "default": "dark",
+    "map": {
+      "tragic": "tragic",
+      "dark": "dark",
+      "tension": "tension",
+      "mystery": "mystery",
+      "emotional": "emotional",
+      "calm": "calm",
+      "neutral": "neutral",
+      "curious": "curious",
+      "action": "action",
+      "epic": "epic",
+      "nostalgic": "nostalgic",
+      "triumphant": "triumphant"
+    }
+  },
+  "ambience_default": [
+    "war_distant",
+    "wind"
+  ],
+  "sfx": {
+    "card_in": "whoosh",
+    "reveal": "sub_drop",
+    "entry": "boom",
+    "photo": "camera_shutter",
+    "doc": "paper_rustle"
+  },
+  "reveal_silence_prob": 0.35,
+  "forbid_flashy": true
+}

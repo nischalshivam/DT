@@ -1,0 +1,157 @@
+{
+  "name": "crime",
+  "substyle": "yt_investigative",
+  "dwell": {
+    "hold": [
+      8.0,
+      15.0
+    ],
+    "normal": [
+      4.0,
+      8.0
+    ],
+    "dense": [
+      2.8,
+      5.0
+    ]
+  },
+  "slot_seconds": {
+    "hold": [
+      9.0,
+      14.0
+    ],
+    "normal": [
+      5.5,
+      8.0
+    ],
+    "dense": [
+      4.0,
+      5.5
+    ]
+  },
+  "clip_max_seconds": 4.5,
+  "static_hold_prob": 0.2,
+  "motions": [
+    "push_in_slow",
+    "push_in_med",
+    "pull_out",
+    "pan_left",
+    "pan_right",
+    "diag_drift",
+    "static",
+    "micro_drift",
+    "doc_scan",
+    "map_zoom",
+    "face_push",
+    "reveal_crop"
+  ],
+  "canvas": "full_bleed",
+  "grade": "crime_dark_v1",
+  "caption_style": "center_bold_white",
+  "transitions": {
+    "cut": 0.7,
+    "dissolve": 0.15,
+    "genre": 0.1,
+    "special": 0.05,
+    "genre_list": [
+      "fade_black",
+      "camera_flash"
+    ],
+    "special_list": [
+      "file_open",
+      "flash_white"
+    ]
+  },
+  "variants": {
+    "date": [
+      "corner_label",
+      "black_screen",
+      "typewriter",
+      "newspaper",
+      "paper_card",
+      "timeline_dot"
+    ],
+    "entry": [
+      "dark_band_red_underline",
+      "case_file_tab",
+      "black_screen_title",
+      "typewriter_reveal"
+    ],
+    "source": [
+      "corner_pill",
+      "file_stamp",
+      "footer_strip"
+    ],
+    "stat": [
+      "dark_panel_red_top",
+      "evidence_tag",
+      "big_number_black"
+    ],
+    "chapter": [
+      "black_screen_title",
+      "archive_photo_bg",
+      "map_bg"
+    ],
+    "name": [
+      "lower_third_red_bar",
+      "case_card"
+    ],
+    "map": [
+      "dark_map_pin",
+      "route_line",
+      "satellite_zoom"
+    ],
+    "text": [
+      "big_pop_center",
+      "typewriter_line",
+      "red_keyword"
+    ],
+    "quote": [
+      "dark_quote_card",
+      "typewriter_quote",
+      "paper_scrap"
+    ],
+    "evidence": [
+      "board_pin",
+      "evidence_tag",
+      "file_photo"
+    ],
+    "timeline": [
+      "dot_advance",
+      "red_string",
+      "file_row"
+    ],
+    "compare": [
+      "split_screen",
+      "side_cards"
+    ]
+  },
+  "music_moods": {
+    "default": "tension",
+    "map": {
+      "tragic": "tragic",
+      "dark": "dark",
+      "tension": "tension",
+      "mystery": "mystery",
+      "emotional": "emotional",
+      "calm": "calm",
+      "neutral": "neutral",
+      "curious": "curious",
+      "action": "action",
+      "nostalgic": "nostalgic"
+    }
+  },
+  "ambience_default": [
+    "night_crickets",
+    "room_tone"
+  ],
+  "sfx": {
+    "card_in": "whoosh",
+    "reveal": "sub_drop",
+    "entry": "boom",
+    "photo": "camera_shutter",
+    "doc": "paper_rustle"
+  },
+  "reveal_silence_prob": 0.3,
+  "forbid_flashy": true
+}

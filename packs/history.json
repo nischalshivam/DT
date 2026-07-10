@@ -1,0 +1,154 @@
+{
+  "name": "history",
+  "substyle": "archive_classic",
+  "dwell": {
+    "hold": [
+      8.0,
+      14.0
+    ],
+    "normal": [
+      5.0,
+      9.0
+    ],
+    "dense": [
+      3.5,
+      6.0
+    ]
+  },
+  "slot_seconds": {
+    "hold": [
+      9.0,
+      13.0
+    ],
+    "normal": [
+      6.0,
+      9.0
+    ],
+    "dense": [
+      4.5,
+      6.0
+    ]
+  },
+  "clip_max_seconds": 4.5,
+  "static_hold_prob": 0.25,
+  "motions": [
+    "push_in_slow",
+    "pull_out",
+    "pan_left",
+    "pan_right",
+    "diag_drift",
+    "static",
+    "micro_drift",
+    "doc_scan",
+    "map_zoom",
+    "face_push",
+    "tilt"
+  ],
+  "canvas": "paper_frame",
+  "grade": "history_sepia_v1",
+  "caption_style": "serif_lower",
+  "transitions": {
+    "cut": 0.7,
+    "dissolve": 0.18,
+    "genre": 0.09,
+    "special": 0.03,
+    "genre_list": [
+      "film_flicker",
+      "page_fade"
+    ],
+    "special_list": [
+      "map_dissolve"
+    ]
+  },
+  "variants": {
+    "date": [
+      "paper_card",
+      "corner_label",
+      "newspaper",
+      "timeline_dot",
+      "black_screen",
+      "map_pin"
+    ],
+    "entry": [
+      "serif_band_gold",
+      "parchment_title",
+      "black_screen_title"
+    ],
+    "source": [
+      "archive_stamp",
+      "corner_pill",
+      "footer_strip"
+    ],
+    "stat": [
+      "parchment_panel",
+      "big_number_sepia",
+      "ledger_card"
+    ],
+    "chapter": [
+      "parchment_title",
+      "archive_photo_bg",
+      "map_bg"
+    ],
+    "name": [
+      "serif_lower_third",
+      "portrait_card"
+    ],
+    "map": [
+      "parchment_map_pin",
+      "route_ink",
+      "old_map_zoom"
+    ],
+    "text": [
+      "serif_center",
+      "ink_reveal",
+      "gold_keyword"
+    ],
+    "quote": [
+      "parchment_quote",
+      "serif_quote_card"
+    ],
+    "evidence": [
+      "ledger_pin",
+      "artifact_tag"
+    ],
+    "timeline": [
+      "era_band",
+      "dot_advance",
+      "scroll_row"
+    ],
+    "compare": [
+      "split_screen",
+      "twin_portraits"
+    ]
+  },
+  "music_moods": {
+    "default": "neutral",
+    "map": {
+      "tragic": "tragic",
+      "dark": "dark",
+      "tension": "tension",
+      "mystery": "mystery",
+      "emotional": "emotional",
+      "calm": "calm",
+      "neutral": "nostalgic",
+      "curious": "curious",
+      "action": "action",
+      "epic": "epic",
+      "nostalgic": "nostalgic",
+      "triumphant": "triumphant"
+    }
+  },
+  "ambience_default": [
+    "wind",
+    "room_tone"
+  ],
+  "sfx": {
+    "card_in": "whoosh",
+    "reveal": "boom",
+    "entry": "boom",
+    "photo": "camera_shutter",
+    "doc": "paper_rustle"
+  },
+  "reveal_silence_prob": 0.3,
+  "forbid_flashy": true
+}
