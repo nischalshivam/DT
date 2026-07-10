@@ -65,10 +65,11 @@ margin:14px 26px;padding:16px 20px}
 .chip{font-size:11px;padding:2px 9px;border-radius:12px;background:#232733;color:var(--tx)}
 .narr{color:var(--mut);font-size:13.5px;line-height:1.55;margin:6px 0 12px;max-width:1100px}
 .shots{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
-.shot{display:flex;gap:12px;font-size:13px;align-items:baseline}
+.shot{display:flex;gap:12px;font-size:13px;align-items:center}
 .shot .d{color:var(--acc);font-weight:700;min-width:52px;text-align:right}
 .shot .k{min-width:64px;color:var(--mut)}.shot .m{min-width:120px;color:#7fa7c9}
 .shot .t{color:var(--tx);opacity:.85}
+.shot .thumb{height:52px;border-radius:4px;cursor:zoom-in;align-self:center}
 .events{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0 4px}
 .ev{background:#14161c;border:1px solid var(--line);border-radius:10px;padding:8px;
 max-width:300px;text-align:center}
@@ -88,7 +89,7 @@ function flt(on){document.querySelectorAll('.scene').forEach(s=>{
  document.getElementById('fbtn').classList.toggle('active',on);
  window._f=on}
 document.addEventListener('click',e=>{
- if(e.target.matches('.ev img')){const m=document.getElementById('modal');
+ if(e.target.matches('.ev img')||e.target.matches('.thumb')){const m=document.getElementById('modal');
   m.querySelector('img').src=e.target.src;m.style.display='flex'}
  else if(e.target.closest('#modal')){document.getElementById('modal').style.display='none'}});
 """
@@ -155,9 +156,20 @@ def build_storyboard(project, plan, pack, out_path, title="DocuStudio Storyboard
                 a = sh["clip_window"][0]
                 b = sh["clip_window"][1]
                 win = f' <span style="color:#666">[src {_mmss(a)}–{_mmss(b) if b else "?"}]</span>'
+            thumb = ""
+            f = sh.get("file")
+            if f and str(f).lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+                try:
+                    from PIL import Image as _I
+                    im = _I.open(f).convert("RGB")
+                    im.thumbnail((200, 74))
+                    thumb = (f'<img class="thumb" src="data:image/png;base64,'
+                             f'{_b64(im, max_w=200)}">')
+                except Exception:
+                    pass
             h.append(f'<div class="shot"><span class="d">{sh["dur"]}s</span>'
                      f'<span class="k">{icon} {sh["kind"]}</span>'
-                     f'<span class="m">{sh["motion"]}</span>'
+                     f'<span class="m">{sh["motion"]}</span>{thumb}'
                      f'<span class="t">{(sh["desc"] or "")[:110]}{win}</span></div>')
         h.append("</div>")
         # events with rendered card previews
