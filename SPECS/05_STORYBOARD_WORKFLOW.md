@@ -44,6 +44,7 @@ Below — one **card per scene**, in order. Each card shows:
 |--------|-----|
 | Reorder visuals | drag thumbnails |
 | Replace a visual | pick from the scene's unused pool, or paste a new link (+ timestamp) — tool fetches it in the background |
+| **Add your own file** | drag-drop or file-picker: any image/video from your PC goes straight into that scene (or the global pool) — QC + treatment apply automatically, video clips still respect the 4–5 s shot cap |
 | Trim/retime | edit a visual's dwell seconds |
 | Edit on-screen text | click the TEXT chip, type |
 | Kill/add an element | toggle any chip (date card, source label, sting…) |
