@@ -90,3 +90,4 @@ always-blur list is configurable in the UI.
 | `SPECS/07_LANGUAGES.md` | multi-language behavior |
 | `SPECS/08_SHOT_PLANNER.md` | asset placement algorithm + copyright-safe clip rules (max 4–5 s per video shot) |
 | `SPECS/09_HUMAN_RHYTHM.md` | anti-template engine: dynamic durations, breath-cuts, 30 formats, style fingerprint, slideshow detector |
+| `SPECS/10_ASSET_CLEANUP_QA.md` | burned-in caption/logo detection + treatment, loudness & readability QA |
