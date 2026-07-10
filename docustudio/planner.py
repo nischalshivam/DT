@@ -249,6 +249,10 @@ def plan(project, pack: dict, seed: int = 0) -> dict:
                                "dur": round(rng.uniform(lo, hi), 2),
                                "variant": variants.pick(k)})
 
+        dropped = _schedule_events(events, sc)
+        if dropped:
+            warnings.append(f"{dropped} card(s) skipped — too many tags "
+                            f"fire on the same line (scene too short)")
         trans = next_transition()
         transition_hist[trans] += 1
         music = pack["music_moods"]["map"].get(
@@ -272,6 +276,53 @@ def plan(project, pack: dict, seed: int = 0) -> dict:
 
 def rng_seed_from(project) -> int:
     return abs(hash(project.clean_norm[:200])) % (2 ** 31)
+
+
+# center-screen / attention-heavy cards: only ONE of these at a time
+_BIG_CARDS = {"TEXT", "QUOTE", "CHAPTER", "ENTRY", "COMPARE", "TIMELINE",
+              "STAT"}
+
+
+def _schedule_events(events, sc) -> int:
+    """Collision-aware card scheduler (SPEC 09 'no text over text').
+
+    Rules: max 2 cards visible at once, max 1 'big' card, starts at
+    least 0.9 s apart. Cards that can't fit inside the scene are
+    dropped (count returned) — priority follows tag order.
+    """
+    cards = [e for e in events
+             if e.get("value") is not None and "dur" in e
+             and e["kind"] not in ("MUSIC_DIP", "REVEAL", "ARCHIVE_AUDIO",
+                                   "CENSOR")]
+    cards.sort(key=lambda e: e.get("t", sc.t0))
+    placed, dropped = [], 0
+    for e in cards:
+        t0, dur = e["t"], e["dur"]
+        big = e["kind"] in _BIG_CARDS
+
+        def ok(t):
+            cur = [p for p in placed if p[0] < t + dur and t < p[1]]
+            if len(cur) >= 2:
+                return False
+            if big and any(p[2] for p in cur):
+                return False
+            if any(abs(p[0] - t) < 0.9 for p in placed):
+                return False
+            return True
+
+        while not ok(t0) and t0 + 1.5 <= sc.t1 - 0.2:
+            t0 += 0.45
+        if not ok(t0):
+            e["dropped"] = True
+            dropped += 1
+            continue
+        if t0 + dur > sc.t1 - 0.1:
+            dur = max(1.6, sc.t1 - 0.1 - t0)
+        e["t"], e["dur"] = round(t0, 2), round(dur, 2)
+        placed.append((t0, t0 + dur, big))
+    if dropped:
+        events[:] = [e for e in events if not e.get("dropped")]
+    return dropped
 
 
 def _pick_item(pool, rng, texture_run, last_video, pack):

@@ -64,6 +64,14 @@ def main():
         build_storyboard(project, p, pack, out_path)
         print(f"storyboard written: {out_path}")
         sys.exit(0)
+    if len(args) >= 2 and args[0] == "run":
+        from .pipeline import run_project
+        until = "render" if "--approve" in args or "--full" in args \
+            else "storyboard"
+        if "--until" in args:
+            until = args[args.index("--until") + 1]
+        run_project(args[1], until=until, approve="--approve" in args)
+        sys.exit(0)
     if len(args) >= 5 and args[0] == "render":
         from .renderer import render
         project, pack, p, opt = _prepare(args)

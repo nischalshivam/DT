@@ -11,7 +11,12 @@ per-scene re-render after.
 > DocuStudio reuses ProStudio's proven engine pieces (whisper
 > word-sync, Ken Burns + drift, planner, QC, renderer).
 >
-> STATUS: Stage 1 built — `docustudio/` package parses all three input
+> STATUS: core engine COMPLETE end-to-end. One command runs a project
+> folder through every stage with checkpoints:
+> `python3 -m docustudio run <ProjectFolder>` → validate → align (whisper
+> or fallback) → plan → storyboard (pauses for approval) → `--approve`
+> → render → output.mp4. Also: `validate`, `plan`, `storyboard`,
+> `render` subcommands. Legacy note: parser package parses all three input
 > files, anchors every narration line in the clean script, maps every
 > visual block to its scenes, and prints a full validation report
 > (`python3 -m docustudio validate <clean> <help> <visual>`).

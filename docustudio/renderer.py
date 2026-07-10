@@ -265,6 +265,7 @@ def render_scene(sp, pack, theme, work, fade_in=None, fade_out=None,
     ins = ["-f", "concat", "-safe", "0", "-i", listfile]
     fc = [f"[0:v]{','.join(chain)}[g0]"]
     prev = "[g0]"
+    active = []  # (t0, t1, x0, y0, x1, y1) — for spatial de-collision
     for i, e in enumerate(events, start=1):
         img, (ax, ay) = render_card(e["kind"], e.get("value", ""),
                                     e.get("variant", "default"), theme)
@@ -274,6 +275,16 @@ def render_scene(sp, pack, theme, work, fade_in=None, fade_out=None,
         t1 = min(sp["dur"], t0 + e.get("dur", 4.0))
         if img.width >= W and img.height >= H:
             ax, ay = 0, 0
+        else:
+            # two cards on screen together must not share a zone:
+            # mirror the newcomer to the opposite side
+            for (a0, a1, x0, y0, x1, y1) in active:
+                if t0 < a1 and a0 < t1 and not (
+                        ax + img.width < x0 or x1 < ax or
+                        ay + img.height < y0 or y1 < ay):
+                    ax = max(40, min(W - img.width - 40, W - ax - img.width))
+                    break
+            active.append((t0, t1, ax, ay, ax + img.width, ay + img.height))
         ins += ["-loop", "1", "-t", str(t1 + 0.4), "-i", png]
         fc.append(f"[{i}:v]format=rgba,fade=t=in:st={t0}:d=0.3:alpha=1,"
                   f"fade=t=out:st={max(t0, t1-0.3)}:d=0.3:alpha=1[c{i}]")
