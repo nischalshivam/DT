@@ -72,6 +72,10 @@ def main():
             until = args[args.index("--until") + 1]
         run_project(args[1], until=until, approve="--approve" in args)
         sys.exit(0)
+    if len(args) >= 3 and args[0] == "rescene":
+        from .pipeline import rescene
+        rescene(args[1], int(args[2]))
+        sys.exit(0)
     if len(args) >= 5 and args[0] == "render":
         from .renderer import render
         project, pack, p, opt = _prepare(args)

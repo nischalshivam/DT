@@ -36,6 +36,28 @@ from .assets import bind_assets
 _HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STAGES = ["validate", "align", "plan", "storyboard", "render"]
 
+# Auto mode: keyword scoring of the clean script against genre packs
+_PACK_KEYWORDS = {
+    "crime": ["police", "murder", "victim", "investigation", "case",
+              "crime", "detective", "prison", "court", "killer", "missing",
+              "suspect", "evidence", "shooting", "arrest", "witness"],
+    "war": ["war", "battle", "army", "soldier", "military", "troops",
+            "regiment", "front", "invasion", "artillery", "operation",
+            "commander", "enemy", "battalion"],
+    "history": ["century", "empire", "king", "queen", "ancient",
+                "revolution", "historical", "dynasty", "archive", "era",
+                "kingdom", "civilization", "medieval", "colonial"],
+}
+
+
+def _detect_pack(project) -> str:
+    text = project.clean_norm
+    scores = {}
+    for pack, words in _PACK_KEYWORDS.items():
+        scores[pack] = sum(text.count(" " + w) for w in words)
+    best = max(scores, key=scores.get)
+    return best if scores[best] > 0 else "history"
+
 
 def _find(folder, patterns):
     for p in patterns:
@@ -100,6 +122,9 @@ class Runner:
 
     def _pack_path(self):
         p = self.cfg["pack"]
+        if p == "auto":
+            p = _detect_pack(self.project)
+            self.progress(f"auto mode: detected genre pack '{p}'")
         if os.path.exists(p):
             return p
         return os.path.join(_HERE, "packs", f"{p}.json")
@@ -146,6 +171,13 @@ class Runner:
                           f"assets {self.plan.get('asset_stats')}")
         json.dump(self.plan, open(os.path.join(self.build, "plan.json"), "w"),
                   indent=1)
+        # style fingerprint saved per project (channel memory reads these)
+        json.dump({"pack": self.plan["pack"],
+                   "substyle": self.plan.get("substyle"),
+                   "seed": self.cfg.get("seed"),
+                   **self.plan.get("fingerprint", {})},
+                  open(os.path.join(self.build, "fingerprint.json"), "w"),
+                  indent=1)
 
     def stage_storyboard(self):
         from .storyboard import build_storyboard
@@ -189,3 +221,17 @@ def run_project(project_dir, until="render", approve=False, force=None,
                 progress=print):
     return Runner(project_dir, progress).run(until=until, force=force,
                                              approve=approve)
+
+
+def rescene(project_dir, scene_num: int, progress=print):
+    """Re-render ONE scene and restitch — the fast post-render fix."""
+    r = Runner(project_dir, progress)
+    victim = os.path.join(r.build, "work", f"scene_{scene_num:03d}.mp4")
+    if os.path.exists(victim):
+        os.remove(victim)
+        progress(f"scene {scene_num}: checkpoint cleared, re-rendering")
+    r._load()
+    r.stage_align()
+    r.stage_plan()
+    r.stage_render()
+    return "ok"
